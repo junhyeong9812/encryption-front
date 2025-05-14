@@ -11,8 +11,16 @@ export default defineConfig({
     },
   },
   server: {
-    port: 80, // 포트 설정
-    host: true, // 0.0.0.0을 의미 (내 IP로 외부 기기에서도 접근 가능)
-    open: true, // 브라우저 자동 실행 (선택)
-  },
+    port: 80,
+    host: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',  // 백엔드 주소
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')  // 선택
+      }
+    }
+  }
+  ,
 })
